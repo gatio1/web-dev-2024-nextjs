@@ -5,15 +5,17 @@
 import React, { useState } from 'react';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
+import { Dropdown } from 'primereact/dropdown';
 
 export default function InputForm({ onSubmit }: any) {
   const [user, setUser] = useState('');
+  const universities: string[] = ["Saab", "Volvo", "BMW"];
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     onSubmit(user);
-    setUser({ age: '', name: '' }); // reset form
+    setUser({ age: '', name: '', university: '' }); // reset form
   };
 
   const handleChange = (e) => {
@@ -23,6 +25,12 @@ export default function InputForm({ onSubmit }: any) {
       [name]: value,
     }));
   };
+  const handleUniChange = (value) => {
+    setUser((prevUser) => ({
+      ...prevUser,
+      [university]: value,
+      }));
+  }
 
   return (
     <div className="card flex flex-wrap flex-column align-items-center justify-content-center gap-3">
@@ -48,6 +56,10 @@ export default function InputForm({ onSubmit }: any) {
           value={user.age}
           onChange={handleChange}
         />
+      </div>
+      <div className="p-inputgroup flex-1">
+        <Dropdown value={user.university} onChange={(e) => handleUniChange(e.value)} options={universities} optionLabel="name"
+          placeholder="Select a University" className="w-full" />
       </div>
       {user && <div> Success!!! </div>}
       <div style={{ 'align-self': 'end' }}>
